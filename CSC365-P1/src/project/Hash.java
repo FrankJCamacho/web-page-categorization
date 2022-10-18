@@ -3,13 +3,15 @@ package project;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hash {
+public class Hash implements Comparable<Hash> {
 
     //Arrays of ArrayLists
     //Resize doubles size of array
 
     int size = 100;
-    private int space = 0;
+    int space = 0;
+    double tfIdf = 0;
+    String url;
     ArrayList<String>[] table = new ArrayList[size];
     public Hash() {
         for(int row = 0; row < table.length; row++) {
@@ -66,4 +68,20 @@ public class Hash {
 
     }
 
+    @Override
+    public int compareTo(Hash o) {
+        double dif = this.tfIdf - o.tfIdf;
+        if(dif > 0) {
+            return 1;
+        } else if(dif < 0) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public String toString(){
+        return url + " " + tfIdf;
+    }
 }
