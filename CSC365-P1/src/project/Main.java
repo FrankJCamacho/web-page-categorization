@@ -3,6 +3,8 @@ package project;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -44,6 +46,7 @@ public class Main {
         for(int i = 0; i < urlArray.length; i++) {
             String paragraphBody = Jsoup.jsoupText(urlArray[i]);
             for(String iterator : paragraphBody.split(" ")) {
+                hashTableArray[i].url = urlArray[i];
                 hashTableArray[i].put(iterator);
             }
         }
@@ -55,10 +58,26 @@ public class Main {
             userTable.put(iterator);
         }
 
-        //similarity.tfIdf(userTable, hashTableArray, "the");
-//        System.out.println("Url is: " + userUrl);
+        //iterates through the hash table array and stores a new tfIdf value in each table
+        for (Hash table : hashTableArray) {
+            for (ArrayList<String> list : userTable.table) {
+                for (String term : list) {
+                    table.tfIdf += similarity.tfIdf(userTable, table, term);
+                }
+            }
+        }
 
-//        boolean trueOrFalse = userTable.contains("hello");
-//        System.out.println(trueOrFalse);
+        //System.out.println(Arrays.toString(hashTableArray));
+
+        //Sorts the arrays in ascending order
+        Arrays.sort(hashTableArray);
+
+        //System.out.println(Arrays.toString(hashTableArray));
+
+        //System.out.println("Wikipedia page most similar is: " + hashTableArray[9].url);
+
+        //Outputs most similar wikipedia page to user chosen one
+        JOptionPane.showMessageDialog( null, "The most similar wikipedia page is: " + hashTableArray[9].url);
+
     }
 }
